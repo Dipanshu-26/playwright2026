@@ -52,3 +52,10 @@ test("verify built in locators in playwright get by label",async({page})=>{
 })
 
 //-----------------------------------------------------------------------------------------------------------------------
+
+test.only('verify assertions in playwright',async({page})=>{
+    await page.goto('https://demo.nopcommerce.com/register')
+
+    //toHaveURL()
+    await expect(page).toHaveURL('https://demo.nopcommerce.com/register')
+})
