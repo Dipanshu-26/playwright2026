@@ -46,6 +46,26 @@ test.only("assertions 3",async({page})=>{
 
     await chbox1.click()
     await expect(chbox1).toBeChecked()
+    
+
+    //toContainText(), toHaveText()
+    const text = await page.locator('h1')
+    await expect(text).toHaveText('Practice Page')
+
+    const btnTxt = await page.locator('legend').first()
+    await expect(btnTxt).toContainText('Radio Button Example')
+   
+
+    //toHaveValue()
+    //await page.getByPlaceholder('Enter Your Name').fill("dipanshu")
+
+    await page.fill("#name","dipanshu")
+    const nmIp = await page.getByPlaceholder('Enter Your Name')
+    await expect(nmIp).toHaveValue("dipanshu")
+
+    //toHaveCount()
+    await expect(page.locator('legend')).toHaveCount(12)
+
     await page.waitForTimeout(3000)
 
 })
