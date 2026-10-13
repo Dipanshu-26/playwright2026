@@ -23,9 +23,22 @@ test("verify iframe in playwright rev", async ({ page }) => {
 
     //type3
     //get by url
-    let frame2 = await page.frame({url:'https://ui.vision/demo/webtest/frames/frame_2'})
+    let frame2 = await page.frame({ url: 'https://ui.vision/demo/webtest/frames/frame_2' })
     await frame2.locator('[name="mytext2"]').fill('Tanish')
 
 
+    //getting child frames
+    let frame3 = await page.frame({ url: 'https://ui.vision/demo/webtest/frames/frame_3' })
+
+    const childFrames3 = await frame3.childFrames()
+    console.log(`child frames = ${childFrames3.length}`)
+    const childF3 = await childFrames3[0]
+    //await childF3.click('[aria-describedby="wSDd7b"]')
+    await childF3.locator('[id="i6"]').click()
+
     await page.waitForTimeout(2000)
+
+    await childF3.locator('[id="i9"]').click()
+    await page.waitForTimeout(2000)
+
 })
