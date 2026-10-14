@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test"
-import { connect } from "node:http2"
+
 
 
 test("verify iframe in playwright rev", async ({ page }) => {
