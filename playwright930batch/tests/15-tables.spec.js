@@ -1,6 +1,6 @@
-const { test, expect} = require('@playwright/test')
+const { test, expect, selectors } = require('@playwright/test')
 
-test('verify static table in playwright',async({page})=>{
+test('verify static table in playwright', async ({ page }) => {
     await page.goto('https://testautomationpractice.blogspot.com/')
     let staticTable = await page.locator('[name="BookTable"]')
 
@@ -15,10 +15,10 @@ test('verify static table in playwright',async({page})=>{
 
     //verify any value present in table -function
 
-   const tableData = (await staticTable.locator('tr td').allTextContents()).map(text =>text.trim())
+    const tableData = (await staticTable.locator('tr td').allTextContents()).map(text => text.trim())
 
-   expect(tableData).toContain('Learn Selenium')
-   expect(tableData).not.toContain('dkljklds')
+    expect(tableData).toContain('Learn Selenium')
+    expect(tableData).not.toContain('dkljklds')
 
     //console.log(tableData)
 
@@ -31,9 +31,9 @@ test('verify static table in playwright',async({page})=>{
     //     table_data_text.push(tdTxt)
     // }
     // console.log(table_data_text)
-    
+
 })
-test.only('verify pagination table in playwright',async({page})=>{
+test('verify pagination table in playwright', async ({ page }) => {
     await page.goto('https://testautomationpractice.blogspot.com/')
     const pageTable = await page.locator('#productTable')
 
@@ -41,9 +41,49 @@ test.only('verify pagination table in playwright',async({page})=>{
     console.log(`header columns = ${await hCol.count()}`)
 
     const drow = await pageTable.locator('tbody tr')
-    console.log(`header columns = ${await drow.count()}`)
+    console.log(`data rows count  = ${await drow.count()}`)
 
-    const cell= await pageTable.locator('tbody tr td')
-    console.log(`header columns = ${await cell.count()}`)
+    const cell = await pageTable.locator('tbody tr td')
+    console.log(`cell = ${await cell.count()}`)
 
+    async function selectProduct(page, drow, product) {
+        let matchedRow = drow.filter({
+            has: page.locator('td'),
+            hasText: product
+        })
+        matchedRow.locator('input').click()
+    }
+    await selectProduct(page, drow, 'Smartwatch')
+    await selectProduct(page, drow, 'Wireless Earbuds')
+    await selectProduct(page, drow, 'Tablet')
+    await page.waitForTimeout(5000)
 })
+
+test.only('verify and print all productfrom pagination table', async ({ page }) => {
+    await page.goto('https://testautomationpractice.blogspot.com/')
+    const pageTable = await page.locator('#productTable')
+
+    const columns = await pageTable.locator('thead th')
+    console.log(`no of columns = ${await columns.count()}`)
+
+    const rows = await pageTable.locator('tbody tr')
+    console.log(`total no of rows = ${await rows.count()}`)
+
+    const cell = await pageTable.locator('tbody tr td')
+    console.log(`cell = ${await cell.count()}`)
+
+    expect(await columns.count()).toBe(4)
+    expect(await rows.count()).toBe(5)
+
+    //print products from one page
+
+    for(let i=0;i<await rows.count();i++){
+        const currentRow=rows.nth(i)
+        const tdInRow = await currentRow.locator('td')
+        for(let j=0;j<await tdInRow.count();j++){
+            console.log(await tdInRow.nth(j).textContent())
+        }
+    }
+})
+
+
