@@ -77,13 +77,23 @@ test.only('verify and print all productfrom pagination table', async ({ page }) 
 
     //print products from one page
 
-    for(let i=0;i<await rows.count();i++){
-        const currentRow=rows.nth(i)
-        const tdInRow = await currentRow.locator('td')
-        for(let j=0;j<await tdInRow.count();j++){
+    // for(let i=0;i<await rows.count();i++){
+    //     const currentRow=rows.nth(i)
+    //     const tdInRow = await currentRow.locator('td')
+    //     for(let j=0;j<await tdInRow.count();j++){
+    //         console.log(await tdInRow.nth(j).textContent())
+    //     }
+    // }
+
+    for(let i=0;i<await rows.count(); i++){
+        const currentRow =  await rows.nth(i)
+        const tdInRow =  await currentRow.locator('td')
+        for(let j=0;j<await tdInRow.count()-1;j++){             //0,1,2,3 for(i=0;i<4-1(3-1);i++)
             console.log(await tdInRow.nth(j).textContent())
         }
     }
+
+
 })
 
 
