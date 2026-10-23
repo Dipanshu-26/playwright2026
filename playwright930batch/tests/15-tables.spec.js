@@ -84,14 +84,41 @@ test.only('verify and print all productfrom pagination table', async ({ page }) 
     //         console.log(await tdInRow.nth(j).textContent())
     //     }
     // }
+    //---------------------------------------------------------------------------------------------------
+    // for(let i=0;i<await rows.count(); i++){
+    //     const currentRow =  await rows.nth(i)
+    //     const tdInRow =  await currentRow.locator('td')
+    //     for(let j=0;j<await tdInRow.count()-1;j++){             //0,1,2,3 for(i=0;i<4-1(3-1);i++)
+    //         console.log(await tdInRow.nth(j).textContent())
+    //     }
+    // }
 
-    for(let i=0;i<await rows.count(); i++){
-        const currentRow =  await rows.nth(i)
-        const tdInRow =  await currentRow.locator('td')
-        for(let j=0;j<await tdInRow.count()-1;j++){             //0,1,2,3 for(i=0;i<4-1(3-1);i++)
-            console.log(await tdInRow.nth(j).textContent())
+    //click on perticular product of any page
+
+    const pages = await page.locator('#pagination li a')
+
+    paginationLoop : for (let i = 0; i < await pages.count(); i++) {
+        if (i > 0) {
+            await pages.nth(i).click()
+            //await page.waitForTimeout(3000)
         }
+        for (let i = 0; i < await rows.count(); i++) {
+            const currentRow = await rows.nth(i)
+            const tdInRow = await currentRow.locator('td')
+            for (let j = 0; j < await tdInRow.count() - 1; j++) {             //0,1,2,3 for(i=0;i<4-1(3-1);i++)
+                //console.log(await tdInRow.nth(j).textContent())
+                let txt = await tdInRow.nth(j).textContent()
+                if(txt == 'Action Camera'){
+                    currentRow.locator('input').click()
+                    await page.waitForTimeout(3000)
+                    break paginationLoop;
+                }
+            }
+        }
+        await page.waitForTimeout(3000)
     }
+
+
 
 
 })
