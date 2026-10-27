@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test')
 
 test('verify static table in playwright', async ({ page }) => {
-    await page.goto('https://testautomationpractice.blogspot.com/')
+    
     let todayDate = new Date()    //Fri Oct 23 2026 21:45:56 GMT+0530 (India Standard Time)
     console.log(`todays date = ${todayDate}`)
 
@@ -32,19 +32,85 @@ test('verify static table in playwright', async ({ page }) => {
     console.log(`future date = ${futureDate}`)
 
     let fdate = futureDate.getDate() 
-    console.log(`todays date only = ${fdate}`)
+    console.log(`future date only = ${fdate}`)
 
     let fmonth = futureDate.getMonth() 
-    console.log(`todays month number = ${fmonth + 1}`)
+    console.log(`future month number = ${fmonth + 1}`)
 
     let fmonthShort = futureDate.toLocaleDateString('default',{month:'short'})
-    console.log(`todays month short = ${fmonthShort}`)
+    console.log(`future  month short = ${fmonthShort}`)
 
     let fmonthLong = futureDate.toLocaleDateString('default',{month:'long'})
-    console.log(`todays month short = ${fmonthLong}`)
+    console.log(`future month short = ${fmonthLong}`)
 
     let fyear=futureDate.getFullYear()
-    console.log(`todays full year = ${fyear}`)
+    console.log(`future full year = ${fyear}`)
+
+
+    await page.goto('https://testautomationpractice.blogspot.com/')
+    await page.locator('input#datepicker').click()
+
+    while(true){
+    let currentMonth = await page.locator('.ui-datepicker-month').textContent()
+    let currentyear = await page.locator('.ui-datepicker-year').textContent()
+
+    if (currentMonth == fmonthLong && currentyear== fyear){
+        break;
+    }
+    //.ui-icon-circle-triangle-e
+    await page.locator('.ui-datepicker-header a.ui-datepicker-next').click()
+
+    await page.waitForTimeout(3000)
+
+}
+
+
+
+
+
+
+
+
+
+//----------------------------------------------------------
+
+
+    // await page.goto('https://testautomationpractice.blogspot.com/')
+
+    // //type1 -----------
+    // //await page.fill('#datepicker','06/25/2025')
+
+    // //type2-----------Datef,fmonthLong,fYear
+
+    // await page.locator('input#datepicker').click()
+
+    // while (true) {
+    //     let currentMonth = await page.locator('.ui-datepicker-month').textContent()
+    //     let currentYear = await page.locator('.ui-datepicker-year').textContent()
+
+    //     if (currentMonth == fmonthLong && currentYear == fyear) {
+    //         break;
+    //     }
+
+    //     await page.locator('[data-handler="next"]').click()
+    // }
+
+    // //select date type 1
+    // //await page.locator(`[data-date="${Datef}"]`).click()
+
+    // //select date type 2 with loop
+    // let dates = await page.$$('[data-handler="selectDay"] a')
+    // for(let dt of dates){
+    //     if(await dt.textContent()==fdate){
+    //        await dt.click()
+    //        break;
+    //     }
+    // }
+
+
+    // await page.waitForTimeout(5000)
+
+
 
 
 })
