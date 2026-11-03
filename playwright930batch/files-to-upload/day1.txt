@@ -1,0 +1,26 @@
+git hub all modes 
+all agent types 
+how to login and open chat window 
+and other basic things
+
+create folder and file index.js 
+1. inline suggestions 
+write function factorial(n)..... and it will complete the code 
+
+2. inline suggestions 
+open already created project and start writing code for incomplete work 
+it will suggest code depending on above code 
+
+3. inline chat code generation
+generate code give prompt write code to find factorial of a number
+
+to open inline chat press ctrl+I
+
+4. how to stop inline suggestion , click on copilot logo in right bottom side and disable 
+
+5.ctrl+alt+i for opening chat window
+
+6. agent , ask , plan mode
+question/prompt == ask mode 
+big task / big feature == plan 
+-----------------------------------------------------------------------------------------------------
